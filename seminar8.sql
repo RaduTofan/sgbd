@@ -1,3 +1,15 @@
+/*
+Seminar 8
+
+PROCEDURI
+
+Au parametri de tip IN si OUT.
+Se creeaza si se sterge ca orice obiect.
+Se apeleaza in mai multe feluri, in functie de tipul parametrilor.
+
+*/
+
+
 create or replace procedure a(p_sir varchar2) --procedura de inlocuire a dbms output
 is
 begin
@@ -9,7 +21,8 @@ execute a('test');
 
 
 --procedure cu care vom modifica salariul unui angajat
-create or replace procedure modsal(p_id angajati.id_angajat%type default 101, p_procent number default 5,p_errcode out number)
+create or replace procedure modsal(p_id angajati.id_angajat%type default 101,
+ p_procent number default 5,p_errcode out number)
 is
 exc exception;
 exc1 exception;
@@ -65,10 +78,12 @@ end;
 /
 
 
-create or replace procedure cauta_ang(p_id angajati.id_angajat%type,p_nume out varchar2, p_vechime out number)
+create or replace procedure cauta_ang(p_id angajati.id_angajat%type,
+p_nume out varchar2, p_vechime out number)
 is 
 begin
-select nume, round(months_between(sysdate, data_angajare)/12,0) into p_nume, p_vechime
+select nume, round(months_between(sysdate, data_angajare)/12,0) 
+into p_nume, p_vechime
 from angajati where id_angajat=p_id;
 exception when no_data_found then
 a('nu exista angajatul');

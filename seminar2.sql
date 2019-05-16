@@ -1,4 +1,5 @@
 set serveroutput on
+
 declare
 v_nume angajati.nume%type;
 v_prenume angajati.prenume%type;

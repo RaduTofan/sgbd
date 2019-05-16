@@ -1,3 +1,22 @@
+/*
+Seminar 7
+
+FUNCTII
+
+- sunt blocuri PL/SQL stocabile
+- au o denumire
+- pot fi reutilizate prin apelare
+- sunt obiecte ale bazei de date, pe care le regasim in browser
+- se creaza cu create, se sterge cu drop function, permite adaugarea optionala 'or replace'
+
+*/
+set serveroutput on
+
+--Functie care primeste ca parametru id-ul angajatului si returneaza numele acestuia
+
+
+
+
 set serveroutput on
 create or replace function f_nume(p_id angajati.id_angajat%type) --antetul functiei, p_id - parametrul pt id
 return varchar2

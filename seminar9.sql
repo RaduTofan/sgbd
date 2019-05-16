@@ -1,7 +1,26 @@
---Pot fi triggeri care sa ajute la tinerea evidentei unor operatii pe anumite campuri in vederea auditarii unui domeniu de activitate
---Mai pot fi triggeri care sa genereze valori unice pt coloane care au primary key sau unique
---triggeri care sa amplifice controlul datelor / sa fie ca o extensie a restrictiilor de integritate
-alter user tofanr_39 
+/*
+Seminar 9
+
+TRIGGERI
+
+Sunt niste blocuri PL/SQL stocabile in BD, la fel ca tabelele, procedurile, functiile.
+Spre deosebire de proceduri si functii pe care le utlizam prin apel, triggeri se declanseaza automat, in anumite conditii, in functie de tipul de trigger.
+Triggerul poate fi o extensie a restirctiilor de integritate.
+Triggerul accepta declare, daca este nevoie.
+
+1. Triggeri la nivelul BD
+    - oprire/pornire server
+2. Triggeri asociati tabelei virtuale
+    - se declanseaza la comenzi de manipulare a datelor (update, insert, delete)
+    
+Putem avea triggeri care au rolul de:
+    - informare
+    - care sa impiedice anumite operatii
+    - care ajuta la tinerea evidentei unei activitati
+    - care sa genereze valori unice pt coloanele care sunt pk sau unique
+    - care sa amplifice controlul datelor
+
+*/
 
 --exemplu, trigger de informare
 create or replace trigger t_adauga 

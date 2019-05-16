@@ -118,7 +118,7 @@ end loop;
 end;
 /
 
---Sa afisam toti angajatii intre 100 si 110 din 2 in 2
+--Sa afisam toti angajatii intre id 100 si 110 din 2 in 2
 
 declare
 v_sal angajati.salariul%type;
@@ -135,6 +135,8 @@ end loop;
 end;
 /
 
+
+--Variabile COMPOZITE sau de tip RECORD
 declare
 v_prod produse%rowtype;
 begin

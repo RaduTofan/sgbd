@@ -7,6 +7,7 @@ pot fi de mai multe feluri:
 		 INVALID_CURSOR
 		 CURSOR_ALREADY_OPENED
 		 DUP_VAL_ON_INDEX
+		 TOO_MANY_ROWS
 -exceptii non-predefinite, care necesita definire sau declarare in sectiunea declare. Sunt invocate de catre SGBD si pot fi tratate in exception
 -exceptii definite de utilizator.se definesc in declare, se invoca de catre utilizator. se trateaza in sectiunea exception.
 Toate exceptiile se caracterizeaza printr-un cod si printr-un mesaj. Codul si mesajul pot fi determinate cu ajutorul SQLCODE, respectiv SQLERRM (sql error message)*/
@@ -32,14 +33,16 @@ dbms_output.put_line('A aparut o eroare!');
 end;
 /
 
-declare cursor c is select nume, salariul from angajati where nume='Smith';
+declare cursor c is select nume, salariul from angajati
+ where nume='Smith';
 r c%rowtype;
 begin
 open c;
 loop
 fetch c into r; --incarcam din cursor in variabila r
 exit when c%notfound;
-dbms_output.put_line('Angajatul cu numele '||r.nume||' are salariul '||r.salariul);
+dbms_output.put_line('Angajatul cu numele '||r.nume||
+' are salariul '||r.salariul);
 end loop;
 close c;
 fetch c into r;
@@ -50,6 +53,27 @@ dbms_output.put_line('Cursorul este deja deschis');
 end;
 /
 
+--erori non-predefinite
+declare
+e_adauga exception;
+pragma exception_init(e_adauga, -02290);
+v_cod number(6);
+v_msg varchar2(255);
+begin
+insert into departamente (id_departament, denumire_departament) values (10, 'denumire');
+exception
+when e_adauga then
+dbms_output.put_line('Denumirea departamentului nu poate fi nula!');
+v_cod:=sqlcode;
+v_msg:=sqlerrm;
+insert into erori values (user, to_date('28.03.2019','dd.mm.yyyy'), v_cod, v_msg);
+when dup_val_on_index then
+dbms_output.put_line('Id-ul departamentului trebuie sa fie unic!');
+v_cod:=sqlcode;
+v_msg:=sqlerrm;
+insert into erori values (user, to_date('28.03.2019','dd.mm.yyyy'), v_cod, v_msg);
+end;
+/
 
 declare
 e_adauga exception;
@@ -57,13 +81,15 @@ pragma exception_init(e_adauga, -02290);
 v_cod number(6);
 v_msg char(255);
 begin 
-insert into departamente (id_departament, denumire_departament) values (10, null);
+insert into departamente (id_departament, denumire_departament)
+ values (10, null);
 exception
 when e_adauga then
 dbms_output.put_line('Denumirea departamentului nu poate fi nula!');
 v_cod:=sqlcode;
 v_msg:=sqlerrm;
-insert into erori values (user,to_date('28.03.2018','dd.mm.yyyy'),v_cod,v_msg);
+insert into erori values (user,to_date('28.03.2018','dd.mm.yyyy'),
+v_cod,v_msg);
 when dup_val_on_index then
 dbms_output.put_line('ID-ul departamentului trebuie sa fie unic!!');
 end;

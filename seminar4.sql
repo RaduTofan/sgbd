@@ -62,8 +62,10 @@ end;
 /
 
 declare
-cursor c is select id_departament, a.nr_dep/b.nr_tot*100 proc_nr, a.sal_dep/b.sal_tot*100 proc_sal
-from(select id_departament,count(id_angajat) nr_dep,sum(salariul) sal_dep
+cursor c is select id_departament, a.nr_dep/b.nr_tot*100 proc_nr, 
+a.sal_dep/b.sal_tot*100 proc_sal
+from(select id_departament,count(id_angajat) nr_dep,
+sum(salariul) sal_dep
 from angajati group by id_departament) a,
 (select count from (id_angajat) nr_tot, sum(salariul) sal_tot
 from angajati) b;

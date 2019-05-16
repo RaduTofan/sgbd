@@ -1,9 +1,31 @@
---A doua forma a cursorului
---curosrul anonim
---curosr cu parametru
---cursori imbviati
---cursori cu clauza for update
--- a doua forma de scriere a cursorului este mai simpla, prima mai explicita
+/* A doua forma a cursorului
+1.curosrul anonim
+2.curosr cu parametru
+3.cursori imbricati
+4.cursori cu clauza for update
+
+ a doua forma de scriere a cursorului 
+este mai simpla, prima este mai explicita
+
+ 1. Cursorul anonim:
+	Nu are nume.
+	Nu se declara.
+	Nu poate fi referit.
+
+ 2. Cursorul cu parametru
+	Permite utilizarea a unui sau mai multor parametri.
+	La schimbarea parametrului se modifica si rezultatul.
+	Parametrului ii definim un tip de data, fara dimensiune.
+	Sunt utili atunci cand vrem sa construim cursori imbricati.
+	
+3. Cursori imbricati
+	Prelucreaza inregistrari sau seturi de date diferite.
+	
+4. Cursori cu clause FOR UPDATE
+	Resursa ramane blocata cat timp se face update-ul.
+ 
+ */
+ 
 set serveroutput on
 
 declare
@@ -17,7 +39,8 @@ loop
 fetch c into r;
 exit when c%notfound;
 if r.limita_credit > 3000 then 
-dbms_output.put_line('Clientul '||r.nume_client||' are limita credit '||r.limita_credit);
+dbms_output.put_line('Clientul '||r.nume_client||' are limita credit '
+||r.limita_credit);
 end if;
 end loop;
 close c;
@@ -70,8 +93,12 @@ close c;
 end;
 /
 
---SA SE CREEZE UN CURSOR (CU PARAMETRI) IN CARE SA AFISAM ANGAJATII DINTR-UN ANUMIT DEPARTAMENT (PRIMIT CA PARAMETRU) SI CARE AU UN ANUMIT SALARIU (PRIMIT CA PARAMETRU);
+--tema:
+--SA SE CREEZE UN CURSOR (CU PARAMETRI) IN CARE SA AFISAM ANGAJATII 
+--DINTR-UN ANUMIT DEPARTAMENT (PRIMIT CA PARAMETRU) SI 
+--CARE AU UN ANUMIT SALARIU (PRIMIT CA PARAMETRU);
 
+--cursori imbricati(nested):
 declare
 cursor c is select * from departamente;
 cursor c1(p_id number) is select * from angajati where id_departament = p_id;
@@ -96,7 +123,11 @@ end loop;
 close c;
 end;
 /
--- for update- asigura accesul concurent la date; blocheaza pentru un anumit timp accesul la baza de date in bazele de date in care au acces mai multi utilizatori in acelasi timp 
+
+--cursor cu clauza for-update;
+--asigura accesul concurent la date; 
+--blocheaza pentru un anumit timp accesul la baza de date in 
+--bazele de date in care au acces mai multi utilizatori in acelasi timp 
 
 declare cursor c is select * from rand_comenzi for update of pret;
 r c%rowtype;
